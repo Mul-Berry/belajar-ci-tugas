@@ -16,6 +16,15 @@
       </form>
     </div><!-- End Search Bar -->
 
+    <?php if (session()->has('current_discount')): ?>
+      <div class="discount-info ms-3 d-flex align-items-center">
+        <span class="badge bg-danger me-2">HOT</span>
+          <span class="text-success fw-bold">
+            Diskon Hari Ini: Rp <?= number_format(session('current_discount'), 0, ',', '.') ?>
+        </span>
+      </div>
+    <?php endif; ?>
+
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 

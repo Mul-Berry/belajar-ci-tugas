@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 <div class="row">
     <div class="col-lg-6">
-        <!-- Vertical Form -->
+        <!-- Vertical Form -->  
         <?= form_open('buy', 'class="row g-3"') ?>
         <?= form_hidden('username', session()->get('username')) ?>
         <?= form_input(['type' => 'hidden', 'name' => 'total_harga', 'id' => 'total_harga', 'value' => '']) ?>
@@ -63,6 +63,11 @@
                     </tr>
                     <tr>
                         <td colspan="2"></td>
+                        <td>Diskon</td>
+                        <td id="discount-value">-IDR 0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
                         <td>Total</td>
                         <td><span id="total"><?php echo number_to_currency($total, 'IDR') ?></span></td>
                     </tr>
@@ -82,7 +87,8 @@
 <script>
 $(document).ready(function() {
     var ongkir = 0;
-    var total = 0; 
+    var total = 0;
+    var discount = 0; 
     hitungTotal();
 
     $('#kelurahan').select2({
@@ -142,7 +148,7 @@ $(document).ready(function() {
     });  
 
     function hitungTotal() {
-        total = ongkir + <?= $total ?>;
+        total = subtotal + ongkir - discount;
 
         $("#ongkir").val(ongkir);
         $("#total").html("IDR " + total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));

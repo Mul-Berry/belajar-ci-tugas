@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 use App\Models\UserModel;
+use App\Models\DiskonModel;
 
 class AuthController extends BaseController
 {
@@ -38,6 +39,9 @@ public function login()
                         'isLoggedIn' => TRUE
                     ]);
 
+                    $diskonModel = new DiskonModel();
+                    $todayDiscount = $diskonModel->where('tanggal', date('Y-m-d'))->first();
+
                     return redirect()->to(base_url('/'));
                 } else {
                     session()->setFlashdata('failed', 'Kombinasi Username & Password Salah');
@@ -59,6 +63,7 @@ public function login()
     
     public function logout()
     {
+        session()->remove('current_discount');
         session()->destroy();
         return redirect()->to('login');
     }
